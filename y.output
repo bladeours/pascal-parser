@@ -1,0 +1,763 @@
+Terminals unused in grammar
+
+    DIGIT
+    NUMBER
+    PLUS
+    MINUS
+    ASTERISK
+    SLASH
+    EQUALS
+    OPERATOR
+    APOSTROPHE
+    ASSIGNMENT
+    STOP
+    PROCEDURE
+    IF
+    THEN
+    DO
+    ELSE
+    REPEAT
+    UNTIL
+    WHILE
+    OR
+    AND
+    CONTINUE
+    BREAK
+
+
+State 9 conflicts: 2 shift/reduce
+State 23 conflicts: 1 shift/reduce, 2 reduce/reduce
+State 24 conflicts: 1 shift/reduce, 2 reduce/reduce
+State 62 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: program_head SEMICOLON blocks main_block
+    2        | %empty
+
+    3 program_head: PROGRAM_NAME WORD
+
+    4 blocks: uses_block blocks
+    5       | var_blocks blocks
+    6       | blocks function_blocks
+    7       | %empty
+
+    8 uses_block: USES uses_list
+
+    9 uses_list: library_name COMMA uses_list
+   10          | library_name SEMICOLON
+
+   11 library_name: WORD
+
+   12 var_blocks: VAR var_list
+
+   13 var_list: var_declaration SEMICOLON var_list
+   14         | var_declaration SEMICOLON
+
+   15 var_declaration: var_name_list COLON type
+
+   16 var_name_list: WORD COMMA var_name_list
+   17              | WORD
+
+   18 function_argument_list: function_argument SEMICOLON function_argument_list
+   19                       | function_argument
+   20                       | %empty
+
+   21 function_argument: argument_name COLON type
+
+   22 argument_name: WORD COMMA var_name_list
+   23              | WORD
+
+   24 $@1: %empty
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+   26                | %empty
+
+   27 body: WORD
+
+   28 type: INTEGER
+   29     | STRING
+   30     | REAL
+   31     | BOOLEAN
+
+   32 main_block: BEGIN_ body END DOT
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    DIGIT (258)
+    NUMBER (259)
+    WORD (260) 3 11 16 17 22 23 25 27
+    SEMICOLON (261) 1 10 13 14 18 25
+    COLON (262) 15 21 25
+    COMMA (263) 9 16 22
+    DOT (264) 32
+    PLUS (265)
+    MINUS (266)
+    ASTERISK (267)
+    SLASH (268)
+    EQUALS (269)
+    OPERATOR (270)
+    APOSTROPHE (271)
+    ASSIGNMENT (272)
+    PROGRAM_NAME (273) 3
+    OPEN_BRACKET (274) 25
+    CLOSE_BRACKET (275) 25
+    STOP (276)
+    USES (277) 8
+    VAR (278) 12
+    REAL (279) 30
+    STRING (280) 29
+    INTEGER (281) 28
+    BOOLEAN (282) 31
+    FUNCTION (283) 25
+    PROCEDURE (284)
+    IF (285)
+    THEN (286)
+    DO (287)
+    ELSE (288)
+    BEGIN_ (289) 25 32
+    END (290) 25 32
+    REPEAT (291)
+    UNTIL (292)
+    WHILE (293)
+    OR (294)
+    AND (295)
+    CONTINUE (296)
+    BREAK (297)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (43)
+        on left: 0
+    program (44)
+        on left: 1 2
+        on right: 0
+    program_head (45)
+        on left: 3
+        on right: 1
+    blocks (46)
+        on left: 4 5 6 7
+        on right: 1 4 5 6
+    uses_block (47)
+        on left: 8
+        on right: 4
+    uses_list (48)
+        on left: 9 10
+        on right: 8 9
+    library_name (49)
+        on left: 11
+        on right: 9 10
+    var_blocks (50)
+        on left: 12
+        on right: 5
+    var_list (51)
+        on left: 13 14
+        on right: 12 13
+    var_declaration (52)
+        on left: 15
+        on right: 13 14
+    var_name_list (53)
+        on left: 16 17
+        on right: 15 16 22
+    function_argument_list (54)
+        on left: 18 19 20
+        on right: 18 25
+    function_argument (55)
+        on left: 21
+        on right: 18 19
+    argument_name (56)
+        on left: 22 23
+        on right: 21
+    function_blocks (57)
+        on left: 25 26
+        on right: 6 25
+    $@1 (58)
+        on left: 24
+        on right: 25
+    body (59)
+        on left: 27
+        on right: 25 32
+    type (60)
+        on left: 28 29 30 31
+        on right: 15 21 25
+    main_block (61)
+        on left: 32
+        on right: 1
+
+
+State 0
+
+    0 $accept: . program $end
+
+    PROGRAM_NAME  shift, and go to state 1
+
+    $default  reduce using rule 2 (program)
+
+    program       go to state 2
+    program_head  go to state 3
+
+
+State 1
+
+    3 program_head: PROGRAM_NAME . WORD
+
+    WORD  shift, and go to state 4
+
+
+State 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 5
+
+
+State 3
+
+    1 program: program_head . SEMICOLON blocks main_block
+
+    SEMICOLON  shift, and go to state 6
+
+
+State 4
+
+    3 program_head: PROGRAM_NAME WORD .
+
+    $default  reduce using rule 3 (program_head)
+
+
+State 5
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 6
+
+    1 program: program_head SEMICOLON . blocks main_block
+
+    USES  shift, and go to state 7
+    VAR   shift, and go to state 8
+
+    $default  reduce using rule 7 (blocks)
+
+    blocks      go to state 9
+    uses_block  go to state 10
+    var_blocks  go to state 11
+
+
+State 7
+
+    8 uses_block: USES . uses_list
+
+    WORD  shift, and go to state 12
+
+    uses_list     go to state 13
+    library_name  go to state 14
+
+
+State 8
+
+   12 var_blocks: VAR . var_list
+
+    WORD  shift, and go to state 15
+
+    var_list         go to state 16
+    var_declaration  go to state 17
+    var_name_list    go to state 18
+
+
+State 9
+
+    1 program: program_head SEMICOLON blocks . main_block
+    6 blocks: blocks . function_blocks
+
+    FUNCTION  shift, and go to state 19
+    BEGIN_    shift, and go to state 20
+
+    FUNCTION  [reduce using rule 26 (function_blocks)]
+    BEGIN_    [reduce using rule 26 (function_blocks)]
+
+    function_blocks  go to state 21
+    main_block       go to state 22
+
+
+State 10
+
+    4 blocks: uses_block . blocks
+
+    USES  shift, and go to state 7
+    VAR   shift, and go to state 8
+
+    $default  reduce using rule 7 (blocks)
+
+    blocks      go to state 23
+    uses_block  go to state 10
+    var_blocks  go to state 11
+
+
+State 11
+
+    5 blocks: var_blocks . blocks
+
+    USES  shift, and go to state 7
+    VAR   shift, and go to state 8
+
+    $default  reduce using rule 7 (blocks)
+
+    blocks      go to state 24
+    uses_block  go to state 10
+    var_blocks  go to state 11
+
+
+State 12
+
+   11 library_name: WORD .
+
+    $default  reduce using rule 11 (library_name)
+
+
+State 13
+
+    8 uses_block: USES uses_list .
+
+    $default  reduce using rule 8 (uses_block)
+
+
+State 14
+
+    9 uses_list: library_name . COMMA uses_list
+   10          | library_name . SEMICOLON
+
+    SEMICOLON  shift, and go to state 25
+    COMMA      shift, and go to state 26
+
+
+State 15
+
+   16 var_name_list: WORD . COMMA var_name_list
+   17              | WORD .
+
+    COMMA  shift, and go to state 27
+
+    $default  reduce using rule 17 (var_name_list)
+
+
+State 16
+
+   12 var_blocks: VAR var_list .
+
+    $default  reduce using rule 12 (var_blocks)
+
+
+State 17
+
+   13 var_list: var_declaration . SEMICOLON var_list
+   14         | var_declaration . SEMICOLON
+
+    SEMICOLON  shift, and go to state 28
+
+
+State 18
+
+   15 var_declaration: var_name_list . COLON type
+
+    COLON  shift, and go to state 29
+
+
+State 19
+
+   25 function_blocks: FUNCTION . WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    WORD  shift, and go to state 30
+
+
+State 20
+
+   32 main_block: BEGIN_ . body END DOT
+
+    WORD  shift, and go to state 31
+
+    body  go to state 32
+
+
+State 21
+
+    6 blocks: blocks function_blocks .
+
+    $default  reduce using rule 6 (blocks)
+
+
+State 22
+
+    1 program: program_head SEMICOLON blocks main_block .
+
+    $default  reduce using rule 1 (program)
+
+
+State 23
+
+    4 blocks: uses_block blocks .
+    6       | blocks . function_blocks
+
+    FUNCTION  shift, and go to state 19
+
+    FUNCTION  [reduce using rule 4 (blocks)]
+    FUNCTION  [reduce using rule 26 (function_blocks)]
+    BEGIN_    reduce using rule 4 (blocks)
+    BEGIN_    [reduce using rule 26 (function_blocks)]
+    $default  reduce using rule 4 (blocks)
+
+    function_blocks  go to state 21
+
+
+State 24
+
+    5 blocks: var_blocks blocks .
+    6       | blocks . function_blocks
+
+    FUNCTION  shift, and go to state 19
+
+    FUNCTION  [reduce using rule 5 (blocks)]
+    FUNCTION  [reduce using rule 26 (function_blocks)]
+    BEGIN_    reduce using rule 5 (blocks)
+    BEGIN_    [reduce using rule 26 (function_blocks)]
+    $default  reduce using rule 5 (blocks)
+
+    function_blocks  go to state 21
+
+
+State 25
+
+   10 uses_list: library_name SEMICOLON .
+
+    $default  reduce using rule 10 (uses_list)
+
+
+State 26
+
+    9 uses_list: library_name COMMA . uses_list
+
+    WORD  shift, and go to state 12
+
+    uses_list     go to state 33
+    library_name  go to state 14
+
+
+State 27
+
+   16 var_name_list: WORD COMMA . var_name_list
+
+    WORD  shift, and go to state 15
+
+    var_name_list  go to state 34
+
+
+State 28
+
+   13 var_list: var_declaration SEMICOLON . var_list
+   14         | var_declaration SEMICOLON .
+
+    WORD  shift, and go to state 15
+
+    $default  reduce using rule 14 (var_list)
+
+    var_list         go to state 35
+    var_declaration  go to state 17
+    var_name_list    go to state 18
+
+
+State 29
+
+   15 var_declaration: var_name_list COLON . type
+
+    REAL     shift, and go to state 36
+    STRING   shift, and go to state 37
+    INTEGER  shift, and go to state 38
+    BOOLEAN  shift, and go to state 39
+
+    type  go to state 40
+
+
+State 30
+
+   25 function_blocks: FUNCTION WORD . OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    OPEN_BRACKET  shift, and go to state 41
+
+
+State 31
+
+   27 body: WORD .
+
+    $default  reduce using rule 27 (body)
+
+
+State 32
+
+   32 main_block: BEGIN_ body . END DOT
+
+    END  shift, and go to state 42
+
+
+State 33
+
+    9 uses_list: library_name COMMA uses_list .
+
+    $default  reduce using rule 9 (uses_list)
+
+
+State 34
+
+   16 var_name_list: WORD COMMA var_name_list .
+
+    $default  reduce using rule 16 (var_name_list)
+
+
+State 35
+
+   13 var_list: var_declaration SEMICOLON var_list .
+
+    $default  reduce using rule 13 (var_list)
+
+
+State 36
+
+   30 type: REAL .
+
+    $default  reduce using rule 30 (type)
+
+
+State 37
+
+   29 type: STRING .
+
+    $default  reduce using rule 29 (type)
+
+
+State 38
+
+   28 type: INTEGER .
+
+    $default  reduce using rule 28 (type)
+
+
+State 39
+
+   31 type: BOOLEAN .
+
+    $default  reduce using rule 31 (type)
+
+
+State 40
+
+   15 var_declaration: var_name_list COLON type .
+
+    $default  reduce using rule 15 (var_declaration)
+
+
+State 41
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET . function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    WORD  shift, and go to state 43
+
+    $default  reduce using rule 20 (function_argument_list)
+
+    function_argument_list  go to state 44
+    function_argument       go to state 45
+    argument_name           go to state 46
+
+
+State 42
+
+   32 main_block: BEGIN_ body END . DOT
+
+    DOT  shift, and go to state 47
+
+
+State 43
+
+   22 argument_name: WORD . COMMA var_name_list
+   23              | WORD .
+
+    COMMA  shift, and go to state 48
+
+    $default  reduce using rule 23 (argument_name)
+
+
+State 44
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list . CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    CLOSE_BRACKET  shift, and go to state 49
+
+
+State 45
+
+   18 function_argument_list: function_argument . SEMICOLON function_argument_list
+   19                       | function_argument .
+
+    SEMICOLON  shift, and go to state 50
+
+    $default  reduce using rule 19 (function_argument_list)
+
+
+State 46
+
+   21 function_argument: argument_name . COLON type
+
+    COLON  shift, and go to state 51
+
+
+State 47
+
+   32 main_block: BEGIN_ body END DOT .
+
+    $default  reduce using rule 32 (main_block)
+
+
+State 48
+
+   22 argument_name: WORD COMMA . var_name_list
+
+    WORD  shift, and go to state 15
+
+    var_name_list  go to state 52
+
+
+State 49
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET . COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    COLON  shift, and go to state 53
+
+
+State 50
+
+   18 function_argument_list: function_argument SEMICOLON . function_argument_list
+
+    WORD  shift, and go to state 43
+
+    $default  reduce using rule 20 (function_argument_list)
+
+    function_argument_list  go to state 54
+    function_argument       go to state 45
+    argument_name           go to state 46
+
+
+State 51
+
+   21 function_argument: argument_name COLON . type
+
+    REAL     shift, and go to state 36
+    STRING   shift, and go to state 37
+    INTEGER  shift, and go to state 38
+    BOOLEAN  shift, and go to state 39
+
+    type  go to state 55
+
+
+State 52
+
+   22 argument_name: WORD COMMA var_name_list .
+
+    $default  reduce using rule 22 (argument_name)
+
+
+State 53
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON . type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    REAL     shift, and go to state 36
+    STRING   shift, and go to state 37
+    INTEGER  shift, and go to state 38
+    BOOLEAN  shift, and go to state 39
+
+    type  go to state 56
+
+
+State 54
+
+   18 function_argument_list: function_argument SEMICOLON function_argument_list .
+
+    $default  reduce using rule 18 (function_argument_list)
+
+
+State 55
+
+   21 function_argument: argument_name COLON type .
+
+    $default  reduce using rule 21 (function_argument)
+
+
+State 56
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type . SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    SEMICOLON  shift, and go to state 57
+
+
+State 57
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON . BEGIN_ body END SEMICOLON $@1 function_blocks
+
+    BEGIN_  shift, and go to state 58
+
+
+State 58
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ . body END SEMICOLON $@1 function_blocks
+
+    WORD  shift, and go to state 31
+
+    body  go to state 59
+
+
+State 59
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body . END SEMICOLON $@1 function_blocks
+
+    END  shift, and go to state 60
+
+
+State 60
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END . SEMICOLON $@1 function_blocks
+
+    SEMICOLON  shift, and go to state 61
+
+
+State 61
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON . $@1 function_blocks
+
+    $default  reduce using rule 24 ($@1)
+
+    $@1  go to state 62
+
+
+State 62
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 . function_blocks
+
+    FUNCTION  shift, and go to state 19
+
+    FUNCTION  [reduce using rule 26 (function_blocks)]
+    $default  reduce using rule 26 (function_blocks)
+
+    function_blocks  go to state 63
+
+
+State 63
+
+   25 function_blocks: FUNCTION WORD OPEN_BRACKET function_argument_list CLOSE_BRACKET COLON type SEMICOLON BEGIN_ body END SEMICOLON $@1 function_blocks .
+
+    $default  reduce using rule 25 (function_blocks)
